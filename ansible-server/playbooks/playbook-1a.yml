@@ -1,10 +1,10 @@
 ---
 - name: PLAYBOOK-1
-  hosts: rhel
+  hosts: all
   tasks:
     - name: Capture output
       ansible.builtin.command:
-        cmd: cat /home/user/res.txt
+        cmd: cat ~/res.txt
       register: output
       changed_when: false
 
