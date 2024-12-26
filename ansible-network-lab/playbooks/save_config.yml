@@ -1,18 +1,19 @@
 ---
-- name: "Play: save config and take backup" 
+- name: "Play: save config and take backup"
   hosts: all
   gather_facts: false
   tasks:
-    - name: copy run config to startup 
-      ios_command:
+    - name: Copy run config to startup
+      cisco.ios.ios_command:
         commands: wr
 
-    - name: show run 
-      ios_command:
-        commands: show run 
+    - name: Show run
+      cisco.ios.ios_command:
+        commands: show run
       register: config
 
-    - name: save output to backup folder 
-      copy: 
+    - name: Save output to backup folder
+      ansible.builtin.copy:
         content: "{{ config.stdout[0] }}"
-        dest: "./configuration/backup/show_run_{{ inventory_hostname.lower() }}.txt" 
+        dest: "configuration/show_run_{{ inventory_hostname.lower() }}.ios"
+        mode: '0644'
