@@ -1,18 +1,10 @@
 ---
-- name: Play-1....
-  hosts: linux
+- name: Play-book....
+  hosts: all
   become: true
   tasks:
-    - name: Install git on ubuntu
-      apt:
-        name: git
-        state: latest
-        update_cache: yes
-      when: ansible_distribution == "Ubuntu"
-
-    - name: Install git on centos
-      yum:
-        name: git
-        state: latest
-        update_cache: yes
-      when: ansible_distribution == "CentOS"
+    - name: Install vim on linux
+      ansible.builtin.package:
+        name: vim
+        state: present
+        update_cache: true
