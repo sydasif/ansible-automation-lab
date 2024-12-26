@@ -1,8 +1,10 @@
-# Switch SSH
+# SSH Configuration
 
 conf t
 !
-hostname core-sw
+hostname core
+!
+ip vrf mgmt
 !
 enable secret cisco
 !
@@ -14,11 +16,12 @@ transport input ssh
 !
 ip ssh version 2
 ip domain-name cisco.com
-crypto key generate rsa modul 1024
+crypto key generate rsa gen mo 2048
 !
 int vlan 1
 no shut
-ip address 172.16.10.12 255.255.255.0
+ip address 192.168.122.100 255.255.255.0
+ip vrf forwarding mgmt
 !
 end
 !
