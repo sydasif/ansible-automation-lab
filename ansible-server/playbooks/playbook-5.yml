@@ -3,17 +3,17 @@
   hosts: ubuntu
   become: true
   tasks:
-    - name: uninstall git on ubuntu
-      apt:
+    - name: Uninstall git on ubuntu
+      ansible.builtin.apt:
         name: git
         state: absent
 
 
 - name: Play-2....
-  hosts: centos
+  hosts: fedora
   become: true
   tasks:
-    - name: uninstall git on centos
-      yum:
+    - name: Uninstall git on fedora
+      ansible.builtin.yum:
         name: git
-        state: absent        
+        state: absent
