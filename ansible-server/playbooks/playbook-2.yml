@@ -1,6 +1,8 @@
 ---
 - name: PLAYBOOK-2
-  hosts: linux
+  hosts: all
   tasks:
     - name: REMOVE RES.TXT???
-      file: path=/home/vagrant/res.txt state=absent
+      ansible.builtin.file:
+        path: ~/res.txt
+        state: absent
