@@ -1,0 +1,19 @@
+---
+- name: Play-1....
+  hosts: ubuntu
+  become: true
+  tasks:
+    - name: Install git on ubuntu
+      apt:
+        name: git
+        state: present
+
+
+- name: Play-2....
+  hosts: centos
+  become: true
+  tasks:
+    - name: Install git on centos
+      yum:
+        name: git
+        state: present

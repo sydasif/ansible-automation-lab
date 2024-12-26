@@ -1,0 +1,6 @@
+[fedora]
+
+f39s ansible_user=zolo
+
+[ubuntu]
+u22s ansible_user=zolo

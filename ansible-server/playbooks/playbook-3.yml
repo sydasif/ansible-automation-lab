@@ -1,0 +1,13 @@
+# use of debug module
+
+---
+- hosts: linux
+  vars:
+    - my_var: some thing
+  tasks:
+    - name: print on terminal
+      command: echo "I want to print {{ my_var }} on screen"
+      register: result
+
+    - name: show result
+      debug: msg={{ result.stdout_lines }}

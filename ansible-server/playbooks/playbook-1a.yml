@@ -1,0 +1,13 @@
+---
+- name: PLAYBOOK-1
+  hosts: rhel
+  tasks:
+    - name: Capture output
+      ansible.builtin.command:
+        cmd: cat /home/user/res.txt
+      register: output
+      changed_when: false
+
+    - name: Show output
+      ansible.builtin.debug:
+        msg: "{{ output.stdout_lines }}"

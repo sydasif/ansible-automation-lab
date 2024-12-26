@@ -1,0 +1,14 @@
+# test ping from ansible to all node 
+---
+- name: "PLAYBOOK: PING"
+  hosts: all
+  become: true
+  tasks:
+
+    - name: ping to all node
+      ping:
+      register: output
+
+    - name: debug ping
+      debug:
+        msg: "{{ output.ping }}"

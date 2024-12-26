@@ -1,0 +1,6 @@
+---
+- name: PLAYBOOK-2
+  hosts: linux
+  tasks:
+    - name: REMOVE RES.TXT???
+      file: path=/home/vagrant/res.txt state=absent

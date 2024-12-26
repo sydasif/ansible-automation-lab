@@ -1,0 +1,19 @@
+---
+- name: Play-1....
+  hosts: ubuntu
+  become: true
+  tasks:
+    - name: uninstall git on ubuntu
+      apt:
+        name: git
+        state: absent
+
+
+- name: Play-2....
+  hosts: centos
+  become: true
+  tasks:
+    - name: uninstall git on centos
+      yum:
+        name: git
+        state: absent        

@@ -1,0 +1,10 @@
+---
+- name: Play-book....
+  hosts: linux
+  become: true
+  tasks:
+    - name: Install vim on linux
+      package:
+        name: "{{ vim }}"
+        state: latest
+        update_cache: yes

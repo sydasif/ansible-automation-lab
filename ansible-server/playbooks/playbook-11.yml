@@ -1,0 +1,38 @@
+---
+- name: Playbook-1
+  hosts: all
+  become: true
+  pre_tasks:
+    - name: install update on ubuntu
+      apt:
+        upgrade: dist
+        update_cache: yes
+      when: ansible_distribution == "Ubuntu"
+
+    - name: install update on CentOS
+      yum:
+        update_only: yes
+        update_cache: yes
+      when: ansible_distribution == "CentOS"
+
+- name: Playbook-2
+  hosts: ubuntu
+  become: yes
+  tasks:
+    - name: install apache and php on ubuntu
+      apt:
+        name:
+          - apache2
+          - libapache2-mod-php
+        state: latest
+
+- name: Playbook-3
+  hosts: centos
+  become: yes
+  tasks:
+    - name: install apache and php on centos
+      yum:
+        name:
+          - httpd
+          - php
+        state: latest

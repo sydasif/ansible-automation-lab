@@ -1,0 +1,26 @@
+---
+- name: Play-1....
+  hosts: linux
+  become: true
+  tasks:
+    - name: update on ubuntu
+      apt:
+        update_cache: yes
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Install git on ubuntu
+      apt:
+        name: git
+        state: latest
+      when: ansible_distribution == "Ubuntu"
+
+    - name: update on centos
+      yum:
+        update_cache: yes
+      when: ansible_distribution == "CentOS"
+
+    - name: Install git on centos
+      yum:
+        name: git
+        state: latest
+      when: ansible_distribution == "CentOS"
