@@ -1,13 +1,15 @@
 # use of debug module
-
 ---
-- hosts: linux
+- name: Print Variable
+  hosts: all
   vars:
-    - my_var: some thing
+    my_var: some thing
   tasks:
-    - name: print on terminal
-      command: echo "I want to print {{ my_var }} on screen"
+    - name: Print on terminal
+      ansible.builtin.command: echo "I want to print {{ my_var }} on screen"
       register: result
+      changed_when: false
 
-    - name: show result
-      debug: msg={{ result.stdout_lines }}
+    - name: Show result
+      ansible.builtin.debug:
+        msg: "{{ result.stdout_lines }}"
