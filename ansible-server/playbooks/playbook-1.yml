@@ -1,9 +1,11 @@
 ---
 - name: PLAYBOOK-1
-  hosts: rhel
+  hosts: all
   tasks:
     - name: A UNAME???
-      shell: uname -a > /home/user/res.txt
+      ansible.builtin.shell: uname -a > ~/res.txt
+      changed_when: false
 
     - name: A WHOAMI???
-      shell: whoami >> /home/user/res.txt
+      ansible.builtin.shell: whoami >> ~/res.txt
+      changed_when: false
