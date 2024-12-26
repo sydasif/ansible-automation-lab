@@ -4,16 +4,16 @@
   become: true
   tasks:
     - name: Install git on ubuntu
-      apt:
+      ansible.builtin.apt:
         name: git
         state: present
 
 
 - name: Play-2....
-  hosts: centos
+  hosts: fedora
   become: true
   tasks:
-    - name: Install git on centos
-      yum:
+    - name: Install git on fedora
+      ansible.builtin.yum:
         name: git
         state: present
