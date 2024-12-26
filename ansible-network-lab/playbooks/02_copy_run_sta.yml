@@ -1,16 +1,17 @@
 ---
-- name: "P1: Copy running config to startup config" 
+- name: "P1: Copy running config to startup config"
   gather_facts: false
-  hosts: switch
+  hosts: all
   tasks:
 
-    - name: copy running-config startup-config
-      ios_command:
+    - name: Copy running-config startup-config
+      cisco.ios.ios_command:
         commands:
           - command: copy running-config startup-config
             prompt: '[confirm]'
             answer: "\r"
       register: output
-      
-    - debug:
-        var: output.stdout_lines  
+
+    - name: Debug output
+      ansible.builtin.debug:
+        msg: output.stdout_lines
