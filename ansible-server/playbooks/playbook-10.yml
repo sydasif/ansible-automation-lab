@@ -1,10 +1,32 @@
 ---
-- name: Play-book....
-  hosts: linux
+- name: Install updates and web server packages
+  hosts: all
   become: true
   tasks:
-    - name: Install vim on linux
-      package:
-        name: "{{ vim }}"
-        state: latest
-        update_cache: yes
+    - name: Install updates on Ubuntu
+      ansible.builtin.apt:
+        upgrade: dist
+        update_cache: true
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Install updates on Fedora
+      ansible.builtin.yum:
+        update_only: true
+        update_cache: true
+      when: ansible_distribution == "Fedora"
+
+    - name: Install Apache and PHP on Ubuntu
+      ansible.builtin.apt:
+        name:
+          - apache2
+          - libapache2-mod-php
+        state: present
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Install Apache and PHP on Fedora
+      ansible.builtin.yum:
+        name:
+          - httpd
+          - php
+        state: present
+      when: ansible_distribution == "Fedora"
