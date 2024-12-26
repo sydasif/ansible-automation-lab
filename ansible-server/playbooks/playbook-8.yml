@@ -1,26 +1,26 @@
 ---
-- name: Play-1....
-  hosts: linux
+- name: Play-1 install git
+  hosts: all
   become: true
   tasks:
-    - name: update on ubuntu
-      apt:
-        update_cache: yes
+    - name: Update on ubuntu
+      ansible.builtin.apt:
+        update_cache: true
       when: ansible_distribution == "Ubuntu"
 
     - name: Install git on ubuntu
-      apt:
+      ansible.builtin.apt:
         name: git
-        state: latest
+        state: present
       when: ansible_distribution == "Ubuntu"
 
-    - name: update on centos
-      yum:
-        update_cache: yes
-      when: ansible_distribution == "CentOS"
+    - name: Update on Fedora
+      ansible.builtin.yum:
+        update_cache: true
+      when: ansible_distribution == "Fedora"
 
-    - name: Install git on centos
-      yum:
+    - name: Install git on Fedora
+      ansible.builtin.yum:
         name: git
-        state: latest
-      when: ansible_distribution == "CentOS"
+        state: present
+      when: ansible_distribution == "Fedora"
