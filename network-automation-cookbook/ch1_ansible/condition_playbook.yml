@@ -1,0 +1,17 @@
+---
+- name: Using Conditionals
+  hosts: all
+  gather_facts: false
+  tasks:
+    # This task will only run on hosts in the 'core' group
+    - name: Run for core nodes only
+      ansible.builtin.debug:
+        msg: "Router name is {{ hostname }}"
+      when: "'core' in group_names"
+
+    # This task will only run on the host with the inventory name 'access_01'
+    - name: Run for access nodes only
+      ansible.builtin.debug:
+        msg: "{{ hostname }} is running {{ os }}"
+      when:
+        - inventory_hostname == 'access_01'
