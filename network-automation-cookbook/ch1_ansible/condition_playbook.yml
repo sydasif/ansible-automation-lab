@@ -12,6 +12,6 @@
     # This task will only run on the host with the inventory name 'access_01'
     - name: Run for access nodes only
       ansible.builtin.debug:
-        msg: "{{ hostname }} is running {{ os }}"
+        msg: "{{ hostname }} is running {{ ansible_network_os }}"
       when:
         - inventory_hostname == 'access_01'

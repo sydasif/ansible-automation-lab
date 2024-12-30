@@ -1,6 +1,6 @@
 ---
 # Playbook to demonstrate looping over lists and dictionaries
-- name: Loop over a list
+- name: Looping Playbook
   hosts: distribution
   gather_facts: false
   tasks:

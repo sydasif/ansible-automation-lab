@@ -12,9 +12,9 @@
     # Display the operating system of the device
     - name: Display OS
       ansible.builtin.debug:
-        msg: "{{ hostname }} is running {{ os }}"
+        msg: "{{ hostname }} is running {{ ansible_network_os }}"
 
     # This task is redundant and can be removed
     - name: Display OS
       ansible.builtin.debug:
-        msg: "{{ hostname }} is running {{ os }}"
+        msg: "{{ hostname }} is running {{ ansible_network_os }}"
