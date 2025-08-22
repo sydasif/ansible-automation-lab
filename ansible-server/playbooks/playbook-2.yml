@@ -1,8 +1,0 @@
----
-- name: PLAYBOOK-2
-  hosts: all
-  tasks:
-    - name: REMOVE RES.TXT???
-      ansible.builtin.file:
-        path: ~/res.txt
-        state: absent

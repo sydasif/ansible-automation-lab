@@ -1,0 +1,50 @@
+---
+- name: Configure VLANs on Interfaces
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Configure VLANs on GigabitEthernet interfaces
+      ios_l2_interfaces:
+        config:
+          - name: GigabitEthernet0/0
+            access:
+              vlan: "{{ access_vlan }}"
+          - name: GigabitEthernet0/1
+            access:
+              vlan: "{{ access_vlan }}"
+        state: merged
+      when: inventory_hostname in ['SW01', 'SW02']
+      register: access_output
+
+    - name: Configure VLANs on GigabitEthernet interfaces
+      ios_l2_interfaces:
+        config:
+          - name: GigabitEthernet0/1
+            access:
+              vlan: "{{ dist_vlan_1 }}"
+          - name: GigabitEthernet0/2
+            access:
+              vlan: "{{ dist_vlan_2 }}"
+        state: merged
+      when: inventory_hostname in ['Dist01']
+      register: dist01_output
+
+    - name: Configure VLANs on GigabitEthernet interfaces
+      ios_l2_interfaces:
+        config:
+          - name: GigabitEthernet0/0
+            access:
+              vlan: "{{ dist_vlan_1 }}"
+          - name: GigabitEthernet0/2
+            access:
+              vlan: "{{ dist_vlan_2 }}"
+        state: merged
+      when: inventory_hostname in ['Dist02']
+      register: dist02_output
+
+    - debug:
+        var: access_output
+    - debug:
+        var: dist01_output
+    - debug:
+        var: dist02_output

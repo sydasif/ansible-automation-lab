@@ -208,4 +208,4 @@ Ansible Playbooks are:
 
 This structure helps automate tasks across various environments efficiently!
 
-[vs code setup](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://developers.redhat.com/learning/learn:ansible:get-started-ansible-visual-studio-code-extension/resource/resources:install-and-configure-ansible-extension-visual-studio-code&ved=2ahUKEwiinf3OkMOKAxWURPEDHQD1HcYQFnoECB4QAQ&usg=AOvVaw3-1oriaFH1wXH4yqSArPa6)
+[VS Code Setup](https://developers.redhat.com/learning/learn:ansible:get-started-ansible-visual-studio-code-extension/resource/resources:install-and-configure-ansible-extension-visual-studio-code)

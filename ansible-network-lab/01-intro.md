@@ -1,4 +1,4 @@
-# [Ansible for Network Automation](https://docs.ansible.com/ansible/2.9/network/index.html)
+# Ansible for Network Automation
 
 Automation in network management has become crucial in modern IT environments, and understanding the models and tools available is essential for network engineers. This introduction will guide you through the fundamentals of Ansible automation, emphasizing its practical advantages and ease of adoption, especially for those without extensive programming skills.
 
@@ -28,20 +28,20 @@ One of Ansible's significant advantages over traditional Python scripting is its
 
 Ansible modules support a wide range of vendors, device types, and actions, so you can manage your entire network with a single automation tool. This versatility makes Ansible a powerful solution for network automation, allowing you to automate routine tasks and ensure consistency across your network infrastructure. Ansible handles communication between the control node and managed nodes through multiple protocols:
 
-* **network_cli by SSH:** A widely-used protocol for managing network devices, ensuring secure and reliable communication.
-* **netconf by SSH:** A protocol designed specifically for network management, offering enhanced capabilities for configuration and monitoring.
-* **httpapi by HTTP/HTTPS:** A flexible and efficient protocol for interacting with network devices that support RESTful APIs.
+*   **network_cli by SSH:** A widely-used protocol for managing network devices, ensuring secure and reliable communication.
+*   **netconf by SSH:** A protocol designed specifically for network management, offering enhanced capabilities for configuration and monitoring.
+*   **httpapi by HTTP/HTTPS:** A flexible and efficient protocol for interacting with network devices that support RESTful APIs.
 
 Network platforms supported by Ansible are:
 
-* **Arista: eos:** Providing robust automation capabilities for Arista's Extensible Operating System.
-* **Cisco: ios, iosxr, nxos:** Enabling comprehensive management of Cisco's diverse range of network operating systems, from traditional IOS to the advanced features of IOS-XR and NX-OS.
-* **Juniper: junos:** Facilitating powerful automation for Juniper's Junos OS, known for its flexibility and performance.
-* **VyOS: vyos:** Supporting automation for VyOS, an open-source network operating system, ideal for various networking tasks.
+*   **Arista: eos:** Providing robust automation capabilities for Arista's Extensible Operating System.
+*   **Cisco: ios, iosxr, nxos:** Enabling comprehensive management of Cisco's diverse range of network operating systems, from traditional IOS to the advanced features of IOS-XR and NX-OS.
+*   **Juniper: junos:** Facilitating powerful automation for Juniper's Junos OS, known for its flexibility and performance.
+*   **VyOS: vyos:** Supporting automation for VyOS, an open-source network operating system, ideal for various networking tasks.
 
 With Ansible's extensive support for different network platforms and protocols, you can streamline your network automation processes and achieve greater operational efficiency.
 
-### [Network Modules in Ansible](https://docs.ansible.com/ansible/2.9/network/getting_started/network_differences.html#how-network-automation-is-different)
+### Network Modules in Ansible
 
 Unlike most Ansible modules, network modules do not run on the managed nodes due to the inability of most network devices to run Python. Instead, these modules are executed on the Ansible control node. This different methodology ensures that Ansible can still manage network devices effectively. Additionally, network modules use the control node as a destination for backup files, typically storing them in the backup directory under the playbook root directory. This approach allows Ansible to provide consistent network management and backup capabilities without the need for Python on the network devices themselves.
 
@@ -51,45 +51,9 @@ By leveraging Ansible, network engineers can streamline their workflows, reduce 
 
 ## Installation of Ansible
 
-Ansible can be installed on most Unix systems, with the only dependency being Python 2.7 or Python 3.5. Currently, the Windows operating system is not officially supported as a control machine. For detailed installation instructions, you can refer to the Ansible documentation [**website**](https://docs.ansible.com/ansible/2.9/installation_guide/index.html), which provides guidance for various platforms. In this guide, we will install Ansible on an Ubuntu machine using the following commands:
+For detailed instructions on installing Ansible, refer to the [Ansible Lab Setup with KVM](ansible-server/01-intro.md) or [Ansible Installation on Vagrant-Managed Ubuntu](ansible-server/vagrant/ansible-installation-on-vagrant.md) guides.
 
-```console
-sudo apt update
-sudo apt install software-properties-common
-sudo apt-add-repository ppa:ansible/ansible
-sudo apt install ansible
-```
-
-These steps ensure that your Ubuntu system is updated, necessary software properties are installed, the Ansible repository is added, and Ansible itself is installed, allowing you to start using Ansible for automation tasks.
-
-To ensure that your Ansible installation is successful and operational, you can run the following commands in your terminal:
-
-```bash
-zolo@u22s:~$ ansible --version
-ansible [core 2.16.7]
-  config file = /etc/ansible/ansible.cfg
-  configured module search path = ['/home/zolo/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
-  ansible python module location = /usr/lib/python3/dist-packages/ansible
-  ansible collection location = /home/zolo/.ansible/collections:/usr/share/ansible/collections
-  executable location = /usr/bin/ansible
-  python version = 3.10.12 (main, Nov 20 2023, 15:14:05) [GCC 11.4.0] (/usr/bin/python3)
-  jinja version = 3.0.3
-  libyaml = True
-```
-
-Executing this command will display information about the installed version of Ansible, confirming that it is correctly installed and ready for use.
-
-Additionally, you can test Ansible's connectivity and functionality by running a simple ping command against the localhost:
-
-```shell
-zolo@u22s:~$ ansible localhost -m ping
-localhost | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-```
-
-Running this command should result in a successful ping response from the localhost, indicating that Ansible can communicate with the target host and execute commands successfully.
+---
 
 ### Privilege Escalation - Networking Device
 
@@ -112,11 +76,9 @@ r1#exit
 Connection to 172.16.10.11 closed.
 ```
 
-### Run Your First Command
+### Run Your First Network Command (Ad-Hoc)
 
-Instead of manually connecting and running a command on the network device, you can retrieve its configuration with a single, stripped-down Ansible command
-
-:
+Instead of manually connecting and running a command on the network device, you can retrieve its configuration with a single, stripped-down Ansible command. For more details on ad-hoc commands, refer to the [Ansible Ad-Hoc Commands](ansible-server/ad-hoc-commands.md) guide.
 
 ```bash
 zolo@u22s:~$ ansible all -i 172.16.10.12, -c network_cli -u admin -k -m ios_facts -e ansible_network_os=ios
@@ -145,31 +107,29 @@ SSH password:
 
 In this example, Ansible targets all hosts defined in the inventory, specifying a custom inventory file with `-i`, connecting using `network_cli` as the connection type with `-c`, authenticating with the username `admin` using `-u`, prompting for a password with `-k`, executing the `ios_facts` module to gather facts about IOS devices, and specifying the network platform as `ios` using `-e`.
 
-### Key Parameters
+### Key Parameters for Network Ad-Hoc Commands
 
-* `-i`: Specifies the list of managed nodes, separated by commas.
-* `-c`: Defines the connection type.
-* `-u`: Specifies the username for authentication.
-* `-k`: Prompts for a password.
-* `-m`: Specifies the module name.
-* `-e`: Defines additional variables, such as the network platform.
+*   `-i`: Specifies the list of managed nodes, separated by commas, or the path to an inventory file.
+*   `-c`: Defines the connection type (e.g., `network_cli`, `netconf`).
+*   `-u`: Specifies the username for authentication.
+*   `-k`: Prompts for a password.
+*   `-m`: Specifies the module name (e.g., `ios_facts`, `ios_command`).
+*   `-e`: Defines additional variables, such as the network platform (`ansible_network_os`).
 
-These ad-hoc commands provide quick and efficient ways to perform specific tasks across your infrastructure using Ansible's versatile command-line interface.
-
-Ansible is a robust and flexible tool for automating IT infrastructure management. Expanding into network automation, Ansible supports a wide range of network devices and protocols, ensuring comprehensive management capabilities. The installation process is straightforward, and Ansible's ability to handle privilege escalation and network-specific tasks further enhances its utility.
+These ad-hoc commands provide quick and efficient ways to perform specific tasks across your network infrastructure using Ansible's versatile command-line interface.
 
 ## Ansible Configuration and Setting
 
-Ansible supports several sources for configuring its behavior, including an ini file named `ansible.cfg`, environment variables, command-line options, playbook keywords, and variables. This flexibility allows users to customize and optimize Ansible for their specific environments and needs.
+Ansible supports several sources for configuring its behavior, including an ini file named `ansible.cfg`, environment variables, command-line options, playbook keywords, and variables. This flexibility allows users to customize and optimize Ansible for their specific environments and needs. For a detailed guide on Ansible configuration, refer to the [Ansible Configuration and Settings](ansible-network-lab/ansible-configuration-and-setting.md) guide.
 
 ### The Configuration File
 
 Changes to Ansible's behavior can be made in a configuration file. Ansible will search for this configuration file in the following order:
 
-1. `ANSIBLE_CONFIG` (environment variable if set)
-2. `ansible.cfg` (in the current directory)
-3. `~/.ansible.cfg` (in the home directory)
-4. `/etc/ansible/ansible.cfg`
+1.  `ANSIBLE_CONFIG` (environment variable if set)
+2.  `ansible.cfg` (in the current directory)
+3.  `~/.ansible.cfg` (in the home directory)
+4.  `/etc/ansible/ansible.cfg`
 
 Ansible will process the list and use the first configuration file it finds, ignoring all others. This hierarchical search allows for different configurations based on the context in which Ansible is being used.
 
@@ -220,10 +180,10 @@ To give you maximum flexibility in managing your environments, Ansible offers ma
 
 Ansible offers four sources for controlling its behavior. In order of precedence from lowest (most easily overridden) to highest (overrides all others), the categories are:
 
-1. **Configuration settings:** The settings in your `ansible.cfg` file.
-2. **Command-line options:** Flags and parameters passed directly in the command line when running Ansible commands.
-3. **Playbook keywords:** Directives specified within your playbooks that control how tasks are executed.
-4. **Variables:** Values defined in your inventory files, playbooks, or directly in tasks, often providing the most granular level of control.
+1.  **Configuration settings:** The settings in your `ansible.cfg` file.
+2.  **Command-line options:** Flags and parameters passed directly in the command line when running Ansible commands.
+3.  **Playbook keywords:** Directives specified within your playbooks that control how tasks are executed.
+4.  **Variables:** Values defined in your inventory files, playbooks, or directly in tasks, often providing the most granular level of control.
 
 Each category overrides any information from all lower-precedence categories. For example, a playbook keyword will override any configuration setting. Within each precedence category, specific rules apply. However, generally speaking, 'last defined' wins and overrides any previous definitions.
 
@@ -241,20 +201,20 @@ interpreter_python=auto
 retry_files_enabled=false
 ```
 
-* **inventory:** Specifies the path to the inventory file.
-* **gathering:** Controls the gathering of facts; `explicit` means facts are only gathered when explicitly requested.
-* **host_key_checking:** Disables SSH key checking to avoid issues with new hosts.
-* **deprecation_warnings:** Disables deprecation warnings to reduce clutter in output.
-* **interpreter_python:** Automatically determines the Python interpreter to use.
-* **retry_files_enabled:** Disables the creation of retry files for failed playbook runs.
+*   **inventory:** Specifies the path to the inventory file.
+*   **gathering:** Controls the gathering of facts; `explicit` means facts are only gathered when explicitly requested.
+*   **host_key_checking:** Disables SSH key checking to avoid issues with new hosts.
+*   **deprecation_warnings:** Disables deprecation warnings to reduce clutter in output.
+*   **interpreter_python:** Automatically determines the Python interpreter to use.
+*   **retry_files_enabled:** Disables the creation of retry files for failed playbook runs.
 
 This configuration helps streamline Ansible's operation in a controlled lab environment, ensuring that tasks run smoothly without unnecessary interruptions or checks.
 
 By understanding and utilizing the configuration options available in Ansible, you can tailor the tool to better fit your needs, improving efficiency and control over your automation tasks. The `ansible-config` utility further enhances this capability by providing clear insights into the current settings and available options.
 
-### [Ansible Inventory Setting](https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html#how-to-build-your-inventory)
+### Ansible Inventory Setting
 
-Inventory serves as the foundation for managing hosts within our infrastructure using Ansible. It consolidates information about target hosts, including their IP addresses or Fully Qualified Domain Names (FQDNs). The simplest inventory is a single file with a list of hosts and groups. The default location for this file is `/etc/ansible/hosts`. You can specify a different inventory file at the command line using the `-i <path>` option or in configuration using `inventory`.
+Inventory serves as the foundation for managing hosts within our infrastructure using Ansible. It consolidates information about target hosts, including their IP addresses or Fully Qualified Domain Names (FQDNs). The simplest inventory is a single file with a list of hosts and groups. The default location for this file is `/etc/ansible/hosts`. You can specify a different inventory file at the command line using the `-i <path>` option or in configuration using `inventory`. For more details on inventory, refer to the [Ansible Inventory Documentation](https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html#how-to-build-your-inventory).
 
 #### Formats for Inventory Files
 
@@ -337,7 +297,7 @@ r1 ansible_host=172.16.10.11 ansible_user=bob
 core-sw ansible_host=172.16.10.12 ansible_user=joe
 ```
 
-Ansible-specific connection variables such as `ansible_user` or `ansible_host` are examples of host variables defined in the inventory.
+Ansible-specific connection variables suchs as `ansible_user` or `ansible_host` are examples of host variables defined in the inventory.
 
 ##### Group Variables
 
@@ -404,12 +364,12 @@ The command fetches information from our hosts/inventory file and creates severa
 
 #### Key Points About Inventory
 
-1. **Host Information:** Inventory files contain crucial information about target hosts, such as their IP addresses and connection variables.
-2. **Default Location:** The default location for the inventory file is `/etc/ansible/hosts`, though you can specify a different location as needed.
-3. **File Format:** Inventory can be written in either `INI` or `YAML` format, providing flexibility in structuring and organizing host information.
-4. **Grouping Hosts:** Group names, enclosed in brackets, serve to classify hosts based on common attributes or roles they fulfill within the infrastructure.
-5. **Special Groups:** The `campus` group is an example of a special group used for categorizing network devices, enabling targeted management of specific device types.
-6. **Default Groups:** Ansible includes two default groups, namely `all` and `ungrouped`. The `all` group encompasses every host defined in the inventory, while the `ungrouped` group comprises hosts that do not belong to any other group aside from `all`.
+1.  **Host Information:** Inventory files contain crucial information about target hosts, such as their IP addresses and connection variables.
+2.  **Default Location:** The default location for the inventory file is `/etc/ansible/hosts`, though you can specify a different location as needed.
+3.  **File Format:** Inventory can be written in either `INI` or `YAML` format, providing flexibility in structuring and organizing host information.
+4.  **Grouping Hosts:** Group names, enclosed in brackets, serve to classify hosts based on common attributes or roles they fulfill within the infrastructure.
+5.  **Special Groups:** The `campus` group is an example of a special group used for categorizing network devices, enabling targeted management of specific device types.
+6.  **Default Groups:** Ansible includes two default groups, namely `all` and `ungrouped`. The `all` group encompasses every host defined in the inventory, while the `ungrouped` group comprises hosts that do not belong to any other group aside from `all`.
 
 By leveraging the inventory, Ansible users can effectively organize, manage, and automate tasks across their infrastructure, streamlining operations and enhancing efficiency.
 
@@ -438,17 +398,17 @@ Here's an example playbook:
 
 Let's break down the playbook:
 
-1. **Playbook Definition**: The playbook starts with `---` to denote the beginning of a YAML document. Each playbook consists of one or more plays.
+1.  **Playbook Definition**: The playbook starts with `---` to denote the beginning of a YAML document. Each playbook consists of one or more plays.
 
-2. **Play Name**: The play is named "Playbook-1: Get ios facts". This is for your reference and helps identify the purpose of the play.
+2.  **Play Name**: The play is named "Playbook-1: Get ios facts". This is for your reference and helps identify the purpose of the play.
 
-3. **Hosts**: The `hosts` directive specifies the target devices for this play. In this case, `all` means it will run on all hosts defined in your inventory.
+3.  **Hosts**: The `hosts` directive specifies the target devices for this play. In this case, `all` means it will run on all hosts defined in your inventory.
 
-4. **Gather Facts**: `gather_facts: false` means that Ansible's default fact-gathering mechanism is disabled. Instead, we'll use the `ios_facts` module to gather facts.
-5. **Connection Type**: `connection: network_cli` indicates that the play will use CLI to connect to network devices.
-6. **Tasks**: Each play consists of a list of tasks. In this play, we have two tasks:
-    * **P1T1: Get config from ios_facts**: This task uses the `ios_facts` module to gather all possible facts from the IOS device. `gather_subset: all` means we are gathering all available facts.
-    * **P1T2: Display debug message**: This task uses the `debug` module to display a custom message that includes the gathered facts. The message is dynamically generated using Jinja2 templating, inserting the device's hostname (`ansible_net_hostname`) and platform type (`ansible_net_iostype`).
+4.  **Gather Facts**: `gather_facts: false` means that Ansible's default fact-gathering mechanism is disabled. Instead, we'll use the `ios_facts` module to gather facts.
+5.  **Connection Type**: `connection: network_cli` indicates that the play will use CLI to connect to network devices.
+6.  **Tasks**: Each play consists of a list of tasks. In this play, we have two tasks:
+    *   **P1T1: Get config from ios_facts**: This task uses the `ios_facts` module to gather all possible facts from the IOS device. `gather_subset: all` means we are gathering all available facts.
+    *   **P1T2: Display debug message**: This task uses the `debug` module to display a custom message that includes the gathered facts. The message is dynamically generated using Jinja2 templating, inserting the device's hostname (`ansible_net_hostname`) and platform type (`ansible_net_iostype`).
 
 ### Running the Playbook
 
@@ -482,12 +442,6 @@ ok: [core-sw] => {
 ok: [access2] => {
     "msg": "The access2 has IOS platform"
 }
-
-PLAY RECAP ******************************************************************************************************************************************
-access1                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
-access2                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
-core-sw                    : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
-r1                         : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
 This command tells Ansible to run the playbook (`playbook.yml`) using the specified inventory file.

@@ -41,6 +41,8 @@ Key points:
 
 ### Lab Setup
 
+This lab focuses on setting up a control node and managed nodes using KVM. For a Vagrant-based lab setup, refer to the [Ansible Vagrant Lab Setup](ansible-server/vagrant/ansible-vagrant-lab.md) guide.
+
 1. Install **QEMU/KVM** on your host machine (e.g., RHEL 9).
 2. Create virtual machines:
    - Fedora 39
@@ -50,7 +52,7 @@ Key points:
 
 ## Setting Up the Lab
 
-1. **Edit the `/etc/hosts` file** to map IPs to hostnames:
+1. **Edit the `/etc/hosts` file** to map IPs to hostnames on your control node:
 
 ```bash
 sudo nano /etc/hosts
@@ -63,7 +65,7 @@ Add:
 192.168.122.11  u22s
 ```
 
-2. **Set up SSH keys** for passwordless login:
+2. **Set up SSH keys** for passwordless login from your control node to managed nodes:
 
 ```bash
 ssh-keygen
@@ -71,7 +73,7 @@ ssh-copy-id -i .ssh/id_rsa.pub zolo@f39s
 ssh-copy-id -i .ssh/id_rsa.pub zolo@u22s
 ```
 
-3. **Allow passwordless sudo**:
+3. **Allow passwordless sudo** on your managed nodes:
 
 - Log into each managed node.
 - Edit the sudoers file:
@@ -90,23 +92,15 @@ zolo ALL=(ALL) NOPASSWD: ALL
 
 ## Installing Ansible
 
-Install Ansible on the control node using `pip`:
-
-```bash
-pip3 install ansible-core
-```
-
-Verify the installation:
-
-```bash
-ansible --version
-```
+For detailed instructions on installing Ansible, refer to the [Ansible Installation on Vagrant-Managed Ubuntu](ansible-server/vagrant/ansible-installation-on-vagrant.md) guide, which covers both `apt` and `pip` methods.
 
 ---
 
 ## Configuring Managed Nodes
 
-Create an inventory file to list managed nodes:
+Create an inventory file to list managed nodes. For more details on inventory, refer to the [Ansible Inventory Documentation](https://docs.ansible.com/ansible/2.9/user_guide/intro_inventory.html#how-to-build-your-inventory).
+
+Example `hosts` file:
 
 ```bash
 nano hosts
@@ -124,68 +118,6 @@ u22s ansible_user=zolo
 
 ---
 
-## Running Ad-Hoc Commands
+## Next Steps
 
-Ad-hoc commands are simple, one-time tasks you can run without writing a playbook.
-
-### Examples
-
-1. **Ping all hosts**:
-
-```bash
-ansible -m ping all
-```
-
-2. **Check uptime**:
-
-```bash
-ansible all -a "uptime"
-```
-
-3. **Run commands as root**:
-
-```bash
-ansible all -b -a "whoami"
-```
-
-### Key Points
-
-- Use `-m` to specify a module (e.g., `ping`, `command`).
-- Add `-b` to run commands as root.
-
----
-
-## Understanding Ansible Modules
-
-Modules are like tools for specific tasks.
-
-| **Module**   | **Purpose**                                      | **Example**                             |
-|--------------|--------------------------------------------------|-----------------------------------------|
-| `ping`       | Test if devices are reachable.                   | `ansible -m ping all`                   |
-| `command`    | Run simple commands (no pipes or redirects).     | `ansible all -m command -a "uptime"`    |
-| `shell`      | Run commands with pipes or redirection.          | `ansible all -m shell -a "echo hello"`  |
-| `raw`        | Run commands on devices without Python.          | `ansible all -m raw -a "ls"`            |
-
----
-
-## Viewing Module Documentation
-
-To learn about a module, use:
-
-```bash
-ansible-doc <module_name>
-```
-
-Example:
-
-```bash
-ansible-doc ping
-```
-
-Press `q` to exit.
-
----
-
-### Next Steps
-
-Once you’re comfortable running ad-hoc commands, you can move on to writing playbooks to automate complex tasks. Ansible’s simplicity and versatility make it a great choice for beginners and advanced users alike!
+Once your lab is set up and Ansible is installed, you can proceed to learn about [Ad-Hoc Commands](ansible-server/ad-hoc-commands.md) and [Ansible Playbooks](ansible-server/03-playbook.md) to automate tasks.

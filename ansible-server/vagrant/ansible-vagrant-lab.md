@@ -1,145 +1,112 @@
-# Ansible Vagrant Lab
+# Ansible Vagrant Lab Setup
 
-## Control node requirement
+This section guides you through setting up a virtual lab environment using Vagrant and VirtualBox (or VMware) to practice Ansible automation. Vagrant simplifies the process of creating and managing virtual machines, providing a consistent and reproducible environment for your labs.
 
-For the control node, you can use any machine with Python 2.7 or Python 3.5 (or higher) installed. The Ansible installation is simple and depends on the OS of your control node, see [Ansible document](https://docs.ansible.com/ansible/2.9/installation_guide/index.html) for installation.
+---
 
-### Managed node requirement
+## Requirements for this Lab
 
-For managed nodes, Ansible makes a connection over SSH, Python and SSH client is required.
+To follow this lab, you will need:
 
-### Requirements of this lab
+1.  **Virtualization Software:**
+    *   [VirtualBox](https://www.virtualbox.org/wiki/Downloads) (recommended and free) or VMware Workstation/Fusion.
+2.  **Vagrant:**
+    *   [Download and install Vagrant](https://www.vagrantup.com/downloads) on your control node (your local machine). Refer to the [Vagrant Quick Start Guide](https://learn.hashicorp.com/tutorials/vagrant/getting-started-index?in=vagrant/getting-started) for detailed installation instructions.
 
-1. VMware or Virtual box
-2. Vagrant
+---
 
-### Using Vagrant to Set Up a Test Server
+## Setting Up Your Vagrant Environment
 
-Vagrant is an excellent open-source tool for managing virtual machines. You can use Vagrant to boot a Linux virtual machine inside your laptop, and you can use that as a test server. I'm using Vagrant for my lab set-up, the process is simple as below:
+1.  **Create a Lab Directory:**
+    Create a new directory on your local machine where you will store your Vagrant lab files. For example:
+    ```bash
+    mkdir ~/Documents/ansible-automation-lab/ansible-server/vagrant-lab
+    cd ~/Documents/ansible-automation-lab/ansible-server/vagrant-lab
+    ```
 
-1. Go to the [Vagrant website](https://www.vagrantup.com/) and download vagrant and install it on your machine. For more details see [Introduction to Vagrant](https://ayushsharma.in/2021/08/introduction-to-vagrant) and [Quick Start Guide](https://learn.hashicorp.com/tutorials/vagrant/etting-started-index?in=vagrant/getting-started).
+2.  **Choose a Vagrantfile:**
+    You can use one of the provided `Vagrantfile` examples from this repository, or create your own.
+    *   `ansible-server/vagrant/lab-1/Vagrantfile`: Sets up a CentOS 7 and an Ubuntu Bionic 64 VM.
+    *   `ansible-server/vagrant/lab-2/Vagrantfile`: Sets up three Ubuntu 18.04 VMs (node01, node02, node03).
 
-2. [Virtual box](https://www.virtualbox.org/wiki/Downloads).
-3. [Vagrant file](https://github.com/sydasif/ansible-lab/blob/master/Vagrantfile).
+    For this example, let's use the `lab-1` Vagrantfile. Copy it into your `vagrant-lab` directory:
+    ```bash
+    cp ../lab-1/Vagrantfile .
+    ```
 
-Create a directory in your machine and copy the vagrant file from the repo. In my case, I, create a directory in Document, named vagrant (name can be
-anything). Open Powershell/Bash and navigate to the concerning directory and boot the Vagrant.
+3.  **Boot the Vagrant Devices:**
+    Navigate to your `vagrant-lab` directory in your terminal and run:
+    ```bash
+    vagrant up
+    ```
+    This command will download the specified box images (if not already present), create, and boot the virtual machines. This process may take some time depending on your internet connection and system resources.
 
-### To boot the vagrant devices
+4.  **Check Device Status:**
+    After booting, you can verify the status of your virtual machines:
+    ```bash
+    vagrant status
+    ```
 
-```vagrant up``` will create and boot the below device's.
+5.  **SSH into a Device:**
+    You can SSH into any of your Vagrant-managed VMs using the `vagrant ssh` command followed by the VM's name (as defined in the `Vagrantfile`). For example:
+    ```bash
+    vagrant ssh ubuntu-64
+    ```
+    If you encounter SSH connection errors, refer to common troubleshooting guides like [SSH Permission Denied on StackOverflow](https://stackoverflow.com/questions/36300446/ssh-permission-denied-publickey-gssapi-with-mic).
 
-1. ubuntu
-2. centos
+---
 
-Command after booting to check the status of devices:
+## Configuring Managed Nodes for Ansible
 
-```console
-vagrant status
-```
+Once your Vagrant VMs are up and running, you need to configure them to be managed by Ansible.
 
-Use ```vagrant ssh ubuntu-64``` command to ssh into a device and check ping to the other device. If any error with ssh connection, see this [Permission denied](https://stackoverflow.com/questions/36300446/ssh-permission-denied-publickey-gssapi-with-mic) guide on StackOverflow.
+1.  **Edit the `/etc/hosts` file on your Control Node:**
+    On your local machine (the Ansible control node), edit your `/etc/hosts` file to map the private IP addresses of your Vagrant VMs to their hostnames. This allows Ansible to resolve the hostnames.
 
-#### Configuring Ansible Client
+    ```bash
+    sudo nano /etc/hosts
+    ```
+    Add entries similar to these (adjust IPs and hostnames based on your `Vagrantfile`):
+    ```text
+    192.168.200.10  centos-7
+    192.168.200.11  ubuntu-64
+    ```
 
-I have two Vagrant hosts ubuntu-64, centos-7 and Ansible control node(my own pc). On the control node (Ubuntu), edit the host's file for IP to name resolution.
+2.  **Set up SSH Keys for Passwordless Login:**
+    Ansible primarily uses SSH for communication. To avoid entering passwords repeatedly, set up SSH key-based authentication from your control node to your Vagrant VMs.
 
-```console
-sudo nano /etc/hosts
-```
+    *   **Generate SSH Key (if you don't have one):**
+        ```bash
+        ssh-keygen -t rsa -b 2048
+        ```
+        Accept the default location and passphrase (or set one if desired).
 
-After opening the file add below IP and host-name.
+    *   **Copy SSH Key to Managed Nodes:**
+        Use `ssh-copy-id` to copy your public key to each Vagrant VM. The default user for Vagrant VMs is `vagrant`.
+        ```bash
+        ssh-copy-id -i ~/.ssh/id_rsa.pub vagrant@ubuntu-64
+        ssh-copy-id -i ~/.ssh/id_rsa.pub vagrant@centos-7
+        ```
 
-```console
-192.168.200.10  centos-7
-192.168.200.11  ubuntu-64
-```
+3.  **Configure Passwordless Sudo on Managed Nodes:**
+    For many Ansible tasks, you'll need root privileges. Configure the `vagrant` user on each managed node to use `sudo` without a password.
 
-Create SSH key on Ansible control node (Ubuntu) with below and accept the defaults.
+    *   **SSH into each VM:**
+        ```bash
+        ssh vagrant@ubuntu-64
+        ```
+    *   **Edit the sudoers file:**
+        ```bash
+        sudo visudo
+        ```
+    *   **Add the following line at the end of the file:**
+        ```text
+        vagrant ALL=(ALL) NOPASSWD: ALL
+        ```
+        Repeat this process for `centos-7` (and any other VMs).
 
-```console
-ssh-keygen
-```
+---
 
-list the keys to verify with the *ls .ssh* command, and copy the key to the client's machine.
+## Next Steps
 
-```console
-ssh-copy-id -i .ssh/id_rsa.pub ubuntu-64
-ssh-copy-id -i .ssh/id_rsa.pub centos-7
-```
-
-Now ssh to Ubuntu-64, and configure the managed host, so that it doesn't require a password to get *sudo* level access.
-
-```console
-ssh ubuntu
-sudo visudo
-```
-
-Go to the bottom of the file and add this line as below:
-
-```console
-vagrant ALL=(ALL) NOPASSWD: ALL
-```
-
-Also, configure centos so that it doesn't require a password to get root-level access.
-
-```console
-ssh centos-7
-su -
-sudo visudo
-```
-
-Go to the bottom of the file and add this line as below:
-
-```console
-vagrant ALL=(ALL) NOPASSWD: ALL
-```
-
-### Ansible installation on Ubuntu
-
-```console
-sudo apt update
-sudo apt install software-properties-common
-sudo apt-add-repository ppa:ansible/ansible-2.9
-sudo apt install ansible -y
-```
-
-### Installing Ansible with pip
-
-```console
-sudo apt update
-sudo apt install python3 python3-pip git
-pip3 install ansible
-```
-
-To test Ansible Installation, run the below commands:
-
-```console
-ansible --version
-ansible localhost -m ping
-```
-
-### Inventory Set-Up
-
-Ansible inventory files define managed nodes that ad-hoc command/playbooks can be run against. I'm creating inventory in the ansible default location (
-/etc/ansible/hosts).
-
-```console
-sudo nano /etc/ansible/hosts
-```
-
-Create groups and add hosts to the group.
-
-```console
-[ubuntu]
-ubuntu-64
-
-[centos]
-centos-7
-
-[linux:children]
-ubuntu
-centos
-```
-
-The lab setup is now completed.
+With your Vagrant lab set up and managed nodes configured for passwordless SSH and sudo, you are ready to install Ansible on your control node and start automating! Refer to the [Ansible Installation on Ubuntu (Vagrant)](ansible-server/vagrant/ansible-installation-on-vagrant.md) guide for the next steps.

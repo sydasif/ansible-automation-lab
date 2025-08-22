@@ -1,0 +1,33 @@
+---
+- name: Gather system information and save to file
+  hosts: all
+  tasks:
+    - name: Capture system information
+      ansible.builtin.shell: uname -a > ~/res.txt
+      changed_when: false
+      register: uname_result
+
+    - name: Capture user information
+      ansible.builtin.shell: whoami >> ~/res.txt
+      changed_when: false
+      register: whoami_result
+
+- name: Display system information
+  hosts: all
+  tasks:
+    - name: Read system information from file
+      ansible.builtin.command: cat ~/res.txt
+      register: output
+      changed_when: false
+
+    - name: Show system information
+      ansible.builtin.debug:
+        msg: "{{ output.stdout_lines }}"
+
+- name: Remove temporary file
+  hosts: all
+  tasks:
+    - name: Delete temporary file
+      ansible.builtin.file:
+        path: ~/res.txt
+        state: absent
