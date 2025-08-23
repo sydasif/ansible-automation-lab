@@ -1,5 +1,0 @@
-snmp_servers:
-  - 10.1.1.1
-
-users:
-  admin: admin123

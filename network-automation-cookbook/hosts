@@ -1,9 +1,0 @@
-[core]
-core_01 ansible_host=192.168.122.100
-
-[distribution]
-dist_01 ansible_host=192.168.122.101
-dist_02 ansible_host=192.168.122.102
-
-[access]
-access_01 ansible_host=192.168.122.103
