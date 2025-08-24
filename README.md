@@ -2,21 +2,6 @@
 
 Welcome to the Ansible Automation Lab Tutorial! This guide will walk you through the fundamentals of Ansible, its application in network automation, and advanced concepts.
 
-- [Introduction to Ansible](./ansible-intro.md)
-- [Ansible Installation on Ubuntu](./ansible-installation.md)
-- [Ansible Configuration and Setting](./ansible-settings.md)
-- [Ansible Inventory Setting](./ansible-inventory.md)
-- [Ansible Lab Setup with KVM](./ansible-kvm-lab.md)
-- [Ansible Ad-Hoc Commands](./ansible-ad-hoc.md)
-- [Playbook in Ansible](./ansible-playbook.md)
-- [Ansible Vagrant Lab Setup](./ansible-vagrant-lab.md)
-- [YAML Basics for Ansible Beginners](./yaml-intro.md)
-- [Ansible for Network Automation Overview](./ansible-network-automation.md)
-
-
-
-
-
 ## Table of Contents
 
 1.  *   **Basic Playbooks:**
