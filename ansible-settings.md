@@ -1,6 +1,6 @@
 # Ansible Configuration and Setting
 
-Ansible supports several sources for configuring its behavior, including an ini file named `ansible.cfg`, environment variables, command-line options, playbook keywords, and variables. This flexibility allows users to customize and optimize Ansible for their specific environments and needs. For a detailed guide on Ansible configuration, refer to the [Ansible Configuration and Settings](ansible-network-lab/ansible-configuration-and-setting.md) guide.
+Ansible supports several sources for configuring its behavior, including an ini file named `ansible.cfg`, environment variables, command-line options, playbook keywords, and variables. This flexibility allows users to customize and optimize Ansible for their specific environments and needs. For a detailed guide on Ansible configuration, refer to the [Ansible Configuration and Settings](./ansible-settings.md) guide.
 
 ## The Configuration File
 

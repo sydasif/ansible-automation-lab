@@ -2,17 +2,16 @@
 
 Welcome to the Ansible Automation Lab Tutorial! This guide will walk you through the fundamentals of Ansible, its application in network automation, and advanced concepts.
 
-[Introduction to Ansible](./intro.md)
-[Ansible Installation on Ubuntu](./installation.md)
-[Ansible Configuration and Setting](./settings.md)
-[Ansible Inventory Setting](./inventory.md)
-[Ansible Lab Setup with KVM](./kvm-lab.md)
-[Ansible Ad-Hoc Commands](./ad-hoc.md)
-[Test Your Ansible Setup](./testing.md)
-[Playbook in Ansible](./playbook.md)
-[Ansible Vagrant Lab Setup](./vagrant-lab.md)
-[YAML Basics for Ansible Beginners](./yaml-intro.md)
-[Ansible for Network Automation Overview](./network-automation.md)
+- [Introduction to Ansible](./ansible-intro.md)
+- [Ansible Installation on Ubuntu](./ansible-installation.md)
+- [Ansible Configuration and Setting](./ansible-settings.md)
+- [Ansible Inventory Setting](./ansible-inventory.md)
+- [Ansible Lab Setup with KVM](./ansible-kvm-lab.md)
+- [Ansible Ad-Hoc Commands](./ansible-ad-hoc.md)
+- [Playbook in Ansible](./ansible-playbook.md)
+- [Ansible Vagrant Lab Setup](./ansible-vagrant-lab.md)
+- [YAML Basics for Ansible Beginners](./yaml-intro.md)
+- [Ansible for Network Automation Overview](./ansible-network-automation.md)
 
 
 
@@ -21,16 +20,16 @@ Welcome to the Ansible Automation Lab Tutorial! This guide will walk you through
 ## Table of Contents
 
 1.  *   **Basic Playbooks:**
-        *   [Ping Playbook](ansible-server/playbooks/ping.yml)
-        *   [Gather System Information](ansible-server/playbooks/playbook-012.yml)
-        *   [Demonstrate Variable Usage](ansible-server/playbooks/playbook-3.yml)
-        *   [Install Git (Ubuntu and Fedora)](ansible-server/playbooks/playbook-4.yml)
-        *   [Uninstall Git (Ubuntu and Fedora)](ansible-server/playbooks/playbook-5.yml)
-        *   [Uninstall Git on Ubuntu (Conditional)](ansible-server/playbooks/playbook-6.yml)
-        *   [Uninstall Git on Fedora (Conditional)](ansible-server/playbooks/playbook-7.yml)
-        *   [Install Git Conditionally (Ubuntu and Fedora)](ansible-server/playbooks/playbook-8.yml)
-        *   [Install Vim (Generic)](ansible-server/playbooks/playbook-9.yml)
-        *   [Install Updates and Web Server (Ubuntu and Fedora)](ansible-server/playbooks/playbook-10.yml)
+        *   [Ping Playbook](ansible-server-lab/playbooks/ping.yml)
+        *   [Gather System Information](ansible-server-lab/playbooks/playbook-012.yml)
+        *   [Demonstrate Variable Usage](ansible-server-lab/playbooks/playbook-3.yml)
+        *   [Install Git (Ubuntu and Fedora)](ansible-server-lab/playbooks/playbook-4.yml)
+        *   [Uninstall Git (Ubuntu and Fedora)](ansible-server-lab/playbooks/playbook-5.yml)
+        *   [Uninstall Git on Ubuntu (Conditional)](ansible-server-lab/playbooks/playbook-6.yml)
+        *   [Uninstall Git on Fedora (Conditional)](ansible-server-lab/playbooks/playbook-7.yml)
+        *   [Install Git Conditionally (Ubuntu and Fedora)](ansible-server-lab/playbooks/playbook-8.yml)
+        *   [Install Vim (Generic)](ansible-server-lab/playbooks/playbook-9.yml)
+        *   [Install Updates and Web Server (Ubuntu and Fedora)](ansible-server-lab/playbooks/playbook-10.yml)
 
 2.  *   **Network Playbooks:**
         *   [Banner Configuration](ansible-network-lab/playbooks/01_banner.yml)

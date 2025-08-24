@@ -20,14 +20,14 @@ To follow this lab, you will need:
 1.  **Create a Lab Directory:**
     Create a new directory on your local machine where you will store your Vagrant lab files. For example:
     ```bash
-    mkdir ~/Documents/ansible-automation-lab/ansible-server/vagrant-lab
-    cd ~/Documents/ansible-automation-lab/ansible-server/vagrant-lab
+    mkdir ~/Documents/ansible-automation-lab/ansible-server-lab/vagrant-lab
+    cd ~/Documents/ansible-automation-lab/ansible-server-lab/vagrant-lab
     ```
 
 2.  **Choose a Vagrantfile:**
     You can use one of the provided `Vagrantfile` examples from this repository, or create your own.
-    *   `server-lab/vagrant/lab-1/Vagrantfile`: Sets up a CentOS 7 and an Ubuntu Bionic 64 VM.
-    *   `server-lab/vagrant/lab-2/Vagrantfile`: Sets up three Ubuntu 18.04 VMs (node01, node02, node03).
+    *   `ansible-server-lab/vagrant/lab-1/Vagrantfile`: Sets up a CentOS 7 and an Ubuntu Bionic 64 VM.
+    *   `ansible-server-lab/vagrant/lab-2/Vagrantfile`: Sets up three Ubuntu 18.04 VMs (node01, node02, node03).
 
     For this example, let's use the `lab-1` Vagrantfile. Copy it into your `vagrant-lab` directory:
     ```bash
@@ -107,7 +107,7 @@ Once your Vagrant VMs are up and running, you need to configure them to be manag
 
 ---
 
-With your Vagrant lab set up and managed nodes configured for passwordless SSH and sudo, you are ready to install Ansible on your control node and start automating! Refer to the [Ansible Installation](installation.md) guide for the next steps.
+With your Vagrant lab set up and managed nodes configured for passwordless SSH and sudo, you are ready to install Ansible on your control node and start automating! Refer to the [Ansible Installation](ansible-installation.md) guide for the next steps.
 
 ## Configuring Ansible Inventory
 
@@ -120,7 +120,7 @@ Ansible uses an inventory file to define the managed nodes it will interact with
     ```
 
 2.  **Add your Vagrant VMs to the inventory:**
-    Based on `ansible-server/vagrant/lab-1/Vagrantfile`, your inventory might look like this:
+    Based on `ansible-server-lab/vagrant/lab-1/Vagrantfile`, your inventory might look like this:
 
     ```ini
     [fedora]
@@ -157,4 +157,4 @@ Ansible uses an inventory file to define the managed nodes it will interact with
 
 ## Next Steps
 
-You have successfully set up your Ansible control node within a Vagrant VM and configured your inventory. You are now ready to explore [Ansible Playbooks](ansible-server/03-playbook.md).
+You have successfully set up your Ansible control node within a Vagrant VM and configured your inventory. You are now ready to explore [Ansible Playbooks](ansible-server-lab/playbooks/ansible-playbook.md).

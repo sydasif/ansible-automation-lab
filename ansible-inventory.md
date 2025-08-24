@@ -4,7 +4,7 @@ Inventory serves as the foundation for managing hosts within our infrastructure 
 
 #### Formats for Inventory Files
 
-You can create your inventory file in various formats, the most common being `INI` and [`YAML`](https://yaml.org/). For this tutorial, see [Lab Setup](https://github.com/sydasif/gns3-lab).
+You can create your inventory file in various formats, the most common being `INI` and [`YAML`](https://yaml.org/). For this tutorial, consult the [Lab Setup](https://github.com/sydasif/gns3-lab).
 
 A basic INI format might look like this as per my lab setup:
 
