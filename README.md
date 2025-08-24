@@ -51,3 +51,7 @@ Welcome to the Ansible Automation Lab Tutorial! This guide will walk you through
         *   [GNS3 Campus 2](ansible-network-lab/gns3-playbook/GNS3-Campus2.yml)
         *   [GNS3 Campus 3](ansible-network-lab/gns3-playbook/GNS3-Campus3.yml)
         *   [GNS3 Campus 4](ansible-network-lab/gns3-playbook/GNS3-Campus4.yml)
+
+See Lab Guide for detailed instructions on setting up and using these playbooks.
+
+- [https://sydasif.github.io/categories/ansible/](https://sydasif.github.io/categories/ansible/)
